@@ -9,10 +9,11 @@
 
 class Passenger{
     private:
-        string fname;
-        string lname;
-        string phone_num;
+        char fname[20];
+        char lname[20];
+        char phone_num[20];
         int passengerID;
+        char pass_seat[4];
         seat*passenger_seat;
     
     public:
@@ -22,9 +23,9 @@ class Passenger{
         int get_passengerID();
         //getters
 
-        void set_fname(string fname);
-        void set_lname(string fname);
-        void set_p_num(string p_num);
+        void set_fname(char fname[20]);
+        void set_lname(char fname[2]);
+        void set_p_num(char p_num[20]);
         void set_ID(int passengerID);
         void set_seat(int row, char collumn);
         //setters
