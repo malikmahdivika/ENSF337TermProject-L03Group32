@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "FlightClass.cpp"
 
 #ifndef Airline
 #define Airline
@@ -9,12 +10,12 @@
 class Airline{
     private: 
         string airline_name;
-        vector <string> listofflights;
+        vector <flight> listofflights;
         int numFlights;
     
     public:
         Airline();
-        Airline(string airline_name, vector<string> listofflights, int numFlights)
+        Airline(string airline_name, vector<flight> listofflights, int numFlights)
         Airline(Airline&source);
         ~Airline();
         Airline& operator(const Airline&RHS);

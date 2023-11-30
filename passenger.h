@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "SeatClass.h"
 
 #ifndef Passenger
 #define Passenger
@@ -12,14 +13,13 @@ class Passenger{
         string lname;
         string phone_num;
         int passengerID;
-        string*passenger_seat;
+        seat*passenger_seat;
     
     public:
         string get_fname();
         string get_lname();
         string get_p_num();
         int get_passengerID();
-        string get_seat();
         //getters
 
         void set_fname(string fname);
