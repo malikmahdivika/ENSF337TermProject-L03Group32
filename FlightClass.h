@@ -1,20 +1,22 @@
+#ifndef FLIGHT
+#define FLIGHT
+
 #include <fstream>
-using namespace std;
 #include <string>
 #include <vector>
 #include "passenger.h"
+#include "SeatClass.h"
+using namespace std;
 
-#ifndef flight
-def flight
 
-typedef vector<vector<string>> seatmap;
+typedef vector<vector<seat> > seatmap;
 
 class flight {
 	private:
 		char flightID[7];
 		int rows; //rows are numbers, columns letters
 		int cols;
-		vector <Passenger*> pList;
+		vector <Passenger> pList;
 		seatmap seats;
         //other data members to be added on need basis
 	
@@ -27,21 +29,24 @@ class flight {
 
         //getters
 		string get_flightID();
-		int get_rows(int rows);
-        int get_cols(int cols);
-        vector get_passenger_list();
-        vector get_map();
+		int get_rows();
+        int get_cols();
+        vector <Passenger> get_passenger_list();
+        vector <vector <seat> > get_map();
     
-        
-
+    
         //setters
         void set_flightID(char input[7]);
-		void set_rows(); //not sure if the following setters are useful...
-        void set_cols();
+		void set_rows(int rows); //not sure if the following setters are useful...
+        void set_cols(int cols);
         void set_passenger_list();
         void set_map();
 
         //other functions to be implemented on need basis
-        void flight::addPassenger(Passenger*P);
-}
+        void SeatAssign(int row, int col, Passenger*P);
+        void RemovePass(int ID);
+        void display_seatMap();
+        void display_passInfo();
+};
+
 #endif

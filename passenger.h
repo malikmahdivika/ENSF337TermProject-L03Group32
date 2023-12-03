@@ -1,11 +1,12 @@
+#ifndef PASSENGER
+#define PASSENGER
+
 #include <string> 
 #include <iostream>
 #include <string>
 #include <vector>
 #include "SeatClass.h"
-
-#ifndef Passenger
-#define Passenger
+using namespace std; 
 
 class Passenger{
     private:
@@ -21,21 +22,24 @@ class Passenger{
         string get_lname();
         string get_p_num();
         int get_passengerID();
+        char get_seat_row();
+        char get_seat_col();
+        char* get_seat();
         //getters
 
         void set_fname(char fname[20]);
         void set_lname(char fname[2]);
         void set_p_num(char p_num[20]);
         void set_ID(int passengerID);
-        void set_seat(int row, char collumn);
+        void set_seat(char seat[4]);
         //setters
 
         Passenger();
         Passenger(string fname, string lname, string phone_num, int passengerID, string*passenger_seat);
         ~Passenger();
         Passenger(Passenger& source);
-        Passenger& operator(Passenger&RHS);
+        Passenger& operator=(Passenger&RHS);
         //ctors,assignment operators, dtor.
-}
+};
 
 #endif
