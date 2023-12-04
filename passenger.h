@@ -1,12 +1,15 @@
 #ifndef PASSENGER
 #define PASSENGER
 
-#include <string> 
 #include <iostream>
 #include <string>
 #include <vector>
-#include "SeatClass.h"
+#include "passenger.h" 
+#include <fstream>
 using namespace std; 
+
+class seat;
+class Passenger;
 
 class Passenger{
     private:
@@ -18,13 +21,13 @@ class Passenger{
         seat*passenger_seat;
     
     public:
-        string get_fname();
-        string get_lname();
-        string get_p_num();
-        int get_passengerID();
-        char get_seat_row();
-        char get_seat_col();
-        char* get_seat();
+        const char*  get_fname() const;
+        const char*  get_lname() const;
+        const char*  get_p_num() const;
+        int get_passengerID() const;
+        const char* get_seat_row() const;
+        const char* get_seat_col() const;
+        const char* get_seat() const ;
         //getters
 
         void set_fname(char fname[20]);
@@ -37,9 +40,13 @@ class Passenger{
         Passenger();
         Passenger(string fname, string lname, string phone_num, int passengerID, string*passenger_seat);
         ~Passenger();
-        Passenger(Passenger& source);
+        //Passenger(Passenger& source);
         Passenger& operator=(Passenger&RHS);
         //ctors,assignment operators, dtor.
+
+        void displayPassenger();
+        void saveData(ofstream&out_file);
+
 };
 
 #endif

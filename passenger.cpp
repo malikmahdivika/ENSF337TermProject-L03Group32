@@ -1,43 +1,67 @@
 #include "passenger.h"
-#include <iostream>
-#include <string> 
 
-string Passenger::get_fname(){return fname;}
-string Passenger::get_lname(){return lname;}
-string Passenger::get_p_num(){return phone_num;}
-int Passenger::get_passengerID(){return passengerID;}
+const char* Passenger::get_fname()const{return fname;}
+const char* Passenger::get_lname()const{return lname;}
+const char* Passenger::get_p_num()const{return phone_num;}
+int Passenger::get_passengerID()const{return passengerID;}
 //getters
 
 void Passenger::set_fname(char fname[20]){
-    for(int i=0; i<20; i++){
-        this->fname[i] = fname[i];
-    }
+    strcpy(this->fname, fname);
 }
 void Passenger::set_lname(char lname[20]){
-    for(int i=0; i<20; i++){
-        this->lname[i] = lname[i];
-    }
+    strcpy(this->lname, lname);
 }
 void Passenger::set_p_num(char p_num[20]){
-    for(int i=0; i<20; i++){
-        this->phone_num[i] = p_num[i];
-    }
+     strcpy(this->phone_num, p_num);
 }
 void Passenger::set_ID(int ID){
-    passengerID = ID;
+   this->passengerID = ID;
 }
 void Passenger::set_seat(char seat[4]){
     strcpy(pass_seat, seat);
 }
 //setters
 
-Passenger::Passenger():fname(), lname(), phone_num(), passengerID(), pass_seat(), passenger_seat(){}
-// Passenger::Passenger(string fname, string lname, string phone_num, int passengerID, string*passenger_seat);
-// Passenger::~Passenger();
-// Passenger::Passenger(Passenger& source);
-// Passenger::Passenger& operator=(Passenger&RHS);
-// //ctors,assignment operators, dtor.
+Passenger::Passenger(){
+    fname[0] = '\0';
+    lname[0] = '\0';
+    phone_num[0] = '\0';
+    passengerID = 0;
+    pass_seat[0] = '\0';
+}
 
-char* Passenger::get_seat(){
+const char* Passenger::get_seat()const {
     return pass_seat;
+}
+
+Passenger::~Passenger(){
+    //dtor 
+}
+
+
+void Passenger::displayPassenger(){
+    const char *first = get_fname();
+    for (int i = 0; i < 20; i++, first++)
+        cout << *first;
+    cout << " ";
+    const char *last = get_lname();
+    for (int i = 0; i < 20; i++, last++)
+        cout << *last;
+    cout << " ";
+    const char *phone = get_p_num();
+    for (int i = 0; i < 20; i++, phone++)
+        cout << *phone;
+    cout << " ";
+    const char *seat = get_seat();
+    for (int i = 0; i < 4; i++, seat++)
+        cout << *seat;
+    int id = get_passengerID();
+    cout << "   " << id << endl;
+    cout << "---------------------------------------------------------------------------" << endl;
+
+}
+
+void Passenger::saveData(ofstream&out_file){
+    out_file << fname << " " << lname << " " << phone_num << " " << pass_seat << " " << passengerID << endl;
 }

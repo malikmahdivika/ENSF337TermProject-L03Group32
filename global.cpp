@@ -20,16 +20,16 @@ void header(){
     cout<< "<<< Press Return to Continue >>>";
 }
 
-void populate(Airline&A){
+void populate(string sourceFile, Airline&A){
     
     ifstream in_file;
 
-   in_file.open("flight_info.txt");
+    in_file.open("flight_info.txt");
 
-   if(in_file.fail()){
-    cout << "Error Opening File!";
-    exit(1);
-   }
+    if(!in_file.is_open()){
+        cout << "Error Opening File!";
+        exit(1);
+    }
 
     flight *F = new flight;
 
@@ -43,6 +43,7 @@ void populate(Airline&A){
     temp_name[1] = temp_line[1];
     temp_name[2] = '\0';
 
+
     A.set_name(temp_name);
 
     char temp_num[7];
@@ -53,69 +54,100 @@ void populate(Airline&A){
     
 
     char rows[6];
-    for(int i=9; i < 15; i++){
+    for(int i = 9; i < 15; i++){
         rows[i-9] = temp_line[i];
     }
-    rows[3] = '/0';
+    rows[5] = '\0';
 
 
-    char cols[1];
-    for(int i=9; i < 15; i++){
-        cols[i-9] = temp_line[i];
+    char cols[2];
+    for(int i = 15; i < 16; i++){
+        cols[i-15] = temp_line[i];
     }
-    cols[2] = '/0';
-
+    cols[1] = '\0';
+     
 
     F->set_flightID(temp_num);
     F->set_rows(atoi(rows));
     F->set_cols(atoi(cols));
 
+    F->seat_list();
+
     while(!in_file.eof()){
 
-        Passenger* P = new Passenger;
 
-        temp_line[100];
-        in_file.getline(temp_line, 100, '\n');
+        Passenger* P = new Passenger;
+        char * ptr;
+
+
+        char templine[100];
+        in_file.getline(templine, 100, '\n');
+        ptr = templine;
+
+
+        if(strlen(templine) < 15 ){
+            break;
+        }
+
 
         char temp_first[20];
-        for(int i = 0; i < 22; i++){
-            temp_first[i] = temp_line[i];
+        for(int i = 0; i < 19; i++, ptr++){
+            temp_first[i] = *ptr;
         }
+        ptr++;
+        temp_first[19] = '\0';
+
+
+        P->set_fname(temp_first);
 
         char temp_last[20];
-        for(int i = 22; i < 42; i++){
-            temp_last[i-22] = temp_line[i];
+        for(int i = 0; i < 19; i++, ptr++){
+            temp_last[i] = *ptr;
         }
+        ptr++;
+        temp_last[19] = '\0';
+
+        P->set_lname(temp_last);
 
 
         char temp_phone[20];
-        for(int i = 41 ; i < 61; i++){
-            temp_phone[i-41] = temp_line[i];
+        for(int i = 0 ; i < 19; i++, ptr++){
+            temp_phone[i] = *ptr;
         }
+        ptr++;
+        temp_phone[19] = '\0';
 
+        P->set_p_num(temp_phone);
+        
 
         char temp_seat[4];
-        for(int i = 61 ; i < 64; i++){
-            temp_seat[i-61] = temp_line[i];
+        for(int i = 0 ; i < 3; i++, ptr++){
+            temp_seat[i] = *ptr;
         }
+        ptr++;
         temp_seat[3] = '\0';
 
-        char temp_ID[5];
-        for(int i = 65 ; i < 71; i++){
-            temp_ID[i-41] = temp_line[i];
-        }
+        P->set_seat(temp_seat);
 
         int pass_row;
         int pass_col;
 
         if(isdigit(temp_seat[1])){
-            pass_row = (temp_seat[0] - '0' *10) + (temp_seat[1]) - '0';
-            pass_col = tolower(temp_seat[2]) - 'a' + 1;
+            pass_row = (temp_seat[0] - '0')*10 + (temp_seat[1] - '0');
+            pass_col = toupper(temp_seat[2]) - 'A' + 1;
         }
         else if(isalpha(temp_seat[1])){
-            pass_row = temp_seat[0] - '0';
-            pass_col = tolower(temp_seat[1]) - 'a' + 1;
+            pass_row = (temp_seat[0] - '0');
+            pass_col = toupper(temp_seat[1]) - 'A' + 1;
         }
+
+        char temp_ID[6];
+        for(int i = 0 ; i < 6; i++, ptr++){
+            temp_ID[i] = *ptr;
+        }
+        ptr++;
+        temp_ID[5] = '\0';
+
 
         //convert ID to integer. 
         int int_ID = 0;
@@ -124,21 +156,12 @@ void populate(Airline&A){
             int_ID = int_ID * 10 + (temp_ID[i] - '0');
             i++;
         }
-
-
-        P->set_fname(temp_first);
-        P->set_lname(temp_last);
-        P->set_p_num(temp_phone);
         P->set_ID(int_ID);
-        P->set_seat(temp_seat);
 
-        //iterate through matrix of seats and add/create pointer to point to a passenger from the seat where the passengers designated seat is.   
-        F->SeatAssign(pass_row, pass_col, P);
+        F->SeatAssign(pass_row, pass_col, P); 
         
     }
-
-    A.set_list(*F); 
+    A.set_list(F); 
     in_file.close();
-
 }  
 

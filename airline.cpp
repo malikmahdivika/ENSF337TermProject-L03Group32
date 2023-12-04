@@ -1,32 +1,14 @@
 #include "airline.h"
 #include <iostream>
 #include <string> 
+#include <fstream>
 #include "FlightClass.h"
 using namespace std;
 
 Airline::Airline(){
-    airline_name[3] = '\0';
-    listofflights = {0};
+    airline_name[2] = '\0';
     numFlights = 0;
 }
-
-// Airline::Airline(string airlineName, vector<flight> listof_flights, int num_Flights){
-//     this ->airline_name = airlineName; 
-//     this ->listofflights = listof_flights;
-//     this ->numFlights = num_Flights; 
-// }
-
-Airline::Airline(Airline&source){
-    this ->airline_name[3] = source.airline_name[3];
-    this ->listofflights = source.listofflights;
-    this ->numFlights = source. numFlights;
-}
-
-// Airline::Airline& operator=(const Airline&RHS){
-//     this ->airline_name[3] = RHS.airline_name[3];
-//     this ->listofflights = RHS.alistofflights;
-//     this ->numFlights = RHS.numFlights;
-// }
 
 const char* Airline::get_name() const{return airline_name;}
 
@@ -36,21 +18,21 @@ int Airline::get_number()const {return numFlights;}
 
 void Airline::set_name(char name[3]){
     
-    for(int i =0; i<4; i++){
-        airline_name[i] = name[i];
-    }
+   airline_name[0] = name[0];
+   airline_name[1] = name[1];
+   airline_name[2] = '\0';
     
 }
 
-void Airline::set_list(flight&F){
-    listofflights.push_back(&F);
+void Airline::set_list(flight*F){
+    listofflights.push_back(F);
 }
 
 void Airline::set_num(int num){numFlights = num;}
 
 void Airline::display_seatMap(){
     flight* F = listofflights[0];
-    F->display_seatMap();
+    F->display_seatMap(); 
 }
 
 void Airline::display_passInfo(){
@@ -98,16 +80,16 @@ void Airline::display_passInfo(){
     P->set_p_num(p_num);
 
     cout << "Enter Passengers ID Number:";
-    cin.getline(ID, 4);
+    cin.getline(ID, 6);
 
-    for(int i = strlen(ID); i < 4; i++){
+    for(int i = strlen(ID); i < 6; i++){
         ID[i] = ' ';
     }
     ID[5] = '\0';
-    P->set_p_num(ID);
+    P->set_ID(atoi(ID));
 
     cout << "Enter Passengers Desired Seat Location:";
-    cin.getline(seat, 4);
+    cin.getline(seat, 4); 
 
     for(int i = strlen(seat); i < 4; i++){
         seat[i] = ' ';
@@ -137,3 +119,49 @@ void Airline::display_passInfo(){
         flight *F = listofflights[0];
         F->RemovePass(ID);
      }
+
+Airline::~Airline() {
+   flight* F = listofflights[0];
+    F->~flight();
+    delete F;
+   listofflights.clear();
+}
+
+void Airline::saveData(){
+    flight* F = listofflights[0];
+    ofstream out_file;
+    out_file.open("flight_info.txt");
+    
+    if(!out_file.is_open()){
+        cout << "File Not Opened Correctly!";
+        exit(1);
+    }
+
+char* airline = airline_name;
+   for (int i = 0; i < 2; ++i, ++airline) {
+      out_file << airline;
+   }
+
+   const char* ID_num_flight = F->get_flightID();
+   for (int i = 0; i < 4; ++i, ++ID_num_flight) {
+      out_file<< *ID_num_flight;
+   }
+   out_file << "   ";
+
+   int rows = F->get_rows();
+   out_file << rows;
+   if (rows < 10)
+   {
+      out_file << "     ";
+   }
+   else 
+   {
+      out_file << "    ";
+   }
+   out_file << F->get_cols() << endl;
+
+   F->saveData(out_file);
+
+   out_file.close();
+
+}

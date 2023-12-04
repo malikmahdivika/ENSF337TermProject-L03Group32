@@ -3,6 +3,7 @@
 
 #include "passenger.h"
 
+class seat;
 
 class seat {
     private:
@@ -24,8 +25,12 @@ class seat {
 
         seat(int row, char col, bool status);
         seat();
+        ~seat();
 
         void removePassenger();
+        void seatAssign(Passenger*P);
+        void displayPassenger();
+        void saveData(ofstream&out_file);
 };
 
 #endif

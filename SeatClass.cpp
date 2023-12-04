@@ -8,7 +8,7 @@ void seat::set_column(char col){
     column = col;
 }
 void seat::set_status(bool status){
-    seat_status = status;
+    this-> seat_status = status; 
 }
 
 int seat::get_rownum(){
@@ -37,7 +37,33 @@ void seat::removePassenger(){
     delete pass; 
 }
 
+seat::~seat(){
+    delete pass;
+    pass = nullptr;
+    passengerID = 0;
+    seat_status = false;
+}
+
 void seat::set_passenger(Passenger*P){
     pass = P;
+    passengerID = P->get_passengerID();
+}
+
+void seat::seatAssign(Passenger*P){
+    set_passenger(P);
+    set_status(true);
+}
+
+void seat::displayPassenger()
+{
+    if (seat_status)
+        pass->displayPassenger();
+}
+
+void seat::saveData(ofstream&out_file){
+    if(seat_status)
+    {
+        pass->saveData(out_file);
+    }
 }
 

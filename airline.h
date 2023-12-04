@@ -1,13 +1,13 @@
 #ifndef AIRLINE
 #define AIRLINE
 
-
-#include <string> 
 #include <iostream>
 #include <string>
 #include <vector>
 #include "FlightClass.h"
+using namespace std;
 
+class Airline;
 
 class Airline{
     private: 
@@ -17,10 +17,8 @@ class Airline{
     
     public:
         Airline();
-        // Airline(string airline_name, vector<flight> listofflights, int numFlights);
         Airline(Airline&source);
         ~Airline();
-        // Airline& operator=(const Airline&RHS);
         //ctor, assignment operator, dtor.
 
         const char* get_name() const;
@@ -29,7 +27,7 @@ class Airline{
         //getters.
 
         void set_name(char name[3]);
-        void set_list(flight&F);
+        void set_list(flight*F);
         void set_num(int num);
         //setters.
 
@@ -37,6 +35,8 @@ class Airline{
         void display_passInfo();
         void addPassenger();
         void RemovePass();
+        void saveData();
+        //other required functions.
 };
 
 #endif
