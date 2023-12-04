@@ -16,8 +16,11 @@ void header(){
     cout << "Term Project - Flight Managment Program in C++" << endl;
     cout << "Produced by Alex Whelan & Malik Mahdivika" << endl;
     cout << "Year: 2023" << endl;
+    cout<<endl;
 
-    cout<< "<<< Press Return to Continue >>>";
+    cout<< "<<< Enter '1' to Continue >>>" << endl;
+    cout << endl;
+    
 }
 
 void populate(string sourceFile, Airline&A){
